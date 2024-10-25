@@ -98,3 +98,16 @@
       shell: |
         helm completion bash > /etc/bash_completion.d/helm
         helm completion zsh  > /usr/local/share/zsh/site-functions/_helm
+
+    # etcdctl
+    - name: download etcd
+      get_url:
+        url: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+        dest: /tmp/etcd.tar.gz
+        mode: '0644'
+
+    - name: unpack etcdctl and make executable
+      shell: |
+        tar xzvf /tmp/etcd.tar.gz --strip-components=1 -C /usr/local/bin etcd-{{ etcd_version }}-linux-amd64/etcdctl
+        chmod 755 /usr/local/bin/etcdctl
+
