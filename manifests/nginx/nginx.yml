@@ -13,12 +13,9 @@ spec:
     helm:
       values: |
         controller:
-          service:
-            externalTrafficPolicy: Local
-            type: NodePort
-            nodePorts:
-              http: 80
-              https: 443
+          kind: DaemonSet
+          hostNetwork: true
+          dnsPolicy: ClusterFirstWithHostNet
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: ingress-nginx
