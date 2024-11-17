@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: Node
 metadata:
-  name: cashew
+  name: ns3066688
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
   labels:
     topology.kubernetes.io/region: eu-central-waw
     topology.kubernetes.io/zone: eu-central-waw-a
   annotations:
-    node.longhorn.io/default-node-tags: '["cashew"]'
+    node.longhorn.io/default-node-tags: '["ns3066688"]'

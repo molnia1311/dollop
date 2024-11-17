@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Node
+metadata:
+  name: ns3138770
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    topology.kubernetes.io/region: eu-west-rbx
+    topology.kubernetes.io/zone: eu-west-rbx-a
+  annotations:
+    node.longhorn.io/default-node-tags: '["ns3138770"]'
