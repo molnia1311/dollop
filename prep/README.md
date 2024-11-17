@@ -2,7 +2,9 @@
 
 install kubectl and friends to `/usr/local/bin` on all `hosts`:
 
+    export ANSIBLE_HOST_KEY_CHECKING=False
     ansible-playbook -i hosts tools.yml --ask-become-pass
+    unset ANSIBLE_HOST_KEY_CHECKING # unset if you set it
 
 install deps for longhorn storage on `[servers]` only:
 
@@ -23,7 +25,7 @@ populate environment with our `versions.yml` vars:
 
 add argocd configmaps before argocd so we don't need to restart:
 
-    kubectl apply -f -r ../manifests/argocd
+    kubectl apply -R -f ../manifests/argocd
 
 install argocd and patch it:
 
