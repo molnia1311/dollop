@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: botzin
   annotations:
-    argocd-image-updater.argoproj.io/image-list: ghcr.io/yutzinvr/botzin:latest
+    argocd-image-updater.argoproj.io/image-list: ghcr.io/yutzinvr/discord-botzin-treehouse/botzin:latest
     argocd-image-updater.argoproj.io/update-strategy: digest
     argocd-image-updater.argoproj.io/write-back-method: argocd
 spec:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: botzin
-        image: ghcr.io/yutzinvr/botzin:latest
+        image: ghcr.io/yutzinvr/discord-botzin-treehouse/botzin:latest
         imagePullPolicy: Always
         env:
         - name: DISCORD_TOKEN
