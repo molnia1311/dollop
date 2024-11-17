@@ -16,6 +16,8 @@ spec:
           kind: DaemonSet
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
+          service:
+            enabled: false
           admissionWebhooks:
             enabled: false
   destination:
