@@ -2,6 +2,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: valheim
+  annotations:
+    argocd.argoproj.io/ignore-resources: |
+      PersistentVolumeClaim
 spec:
   project: default
   sources:
@@ -14,7 +17,10 @@ spec:
         serverName: Treehouse
         passwordSecret: valheim
         storage:
-          kind: emptyDir
+          kind: persistentVolumeClaim
+          pvc:
+            storageClassName: local-storage
+            size: 20Gi
         serverStorage:
           kind: persistentVolumeClaim
           pvc:
@@ -31,17 +37,3 @@ spec:
   syncPolicy:
     automated:
       selfHeal: true
-  patchesStrategicMerge:
-    - target:
-        group: apps
-        version: v1
-        kind: Deployment
-        name: valheim
-      patch: |-
-        spec:
-          template:
-            spec:
-              volumes:
-                - name: gamefiles
-                  persistentVolumeClaim:
-                    claimName: valheim-world-data
