@@ -21,9 +21,13 @@ populate environment with our `versions.yml` vars:
 
     eval $(awk -F ": " '{print $1"="$2}' versions.yml)
 
+add argocd configmaps before argocd so we don't need to restart:
+
+    kubectl apply -f -r ../manifests/argocd
+
 install argocd and patch it:
 
-    kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/$argocd_version/manifests/core-install.yaml
+    kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/$argocd_version/manifests/install.yaml
     kubectl patch clusterrolebinding argocd-application-controller --type='merge' -p "$(cat argocd.patch.yml)"
 
 generate a ssh-key pair for argocd <-> github connection:
