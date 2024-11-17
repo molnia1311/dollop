@@ -2,5 +2,6 @@
 localhost ansible_connection=local
 
 [servers]
-cashew    ansible_user=debian ansible_host=cashew.vanad.is
-pistachio ansible_user=debian ansible_host=pistachio.vanad.is
+ns3066513.ip-79-137-70.eu ansible_user=debian
+ns3066688.ip-79-137-70.eu ansible_user=debian
+ns3138770.ip-94-23-11.eu  ansible_user=debian

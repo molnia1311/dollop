@@ -7,12 +7,17 @@ spec:
     - role: controller+worker
       noTaints: true
       ssh:
-        address: cashew.vanad.is
+        address: ns3066513.ip-79-137-70.eu
         user: debian
     - role: controller+worker
       noTaints: true
       ssh:
-        address: pistachio.vanad.is
+        address: ns3066688.ip-79-137-70.eu
+        user: debian
+    - role: controller+worker
+      noTaints: true
+      ssh:
+        address: ns3138770.ip-94-23-11.eu
         user: debian
   k0s:
     version: v1.30.4+k0s.0
