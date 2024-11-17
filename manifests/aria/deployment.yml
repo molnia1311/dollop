@@ -14,6 +14,15 @@ spec:
     spec:
       securityContext:
         fsGroup: 1000
+      initContainers:
+      - name: bootstrap
+        image: ghcr.io/molnia1311/aria:1.36.0
+        command: ["touch", "/var/lib/aria/session.txt"]
+        volumeMounts:
+        - name: session
+          mountPath: /var/lib/aria  # For the session file
+        securityContext:
+          runAsUser: 1000  # Run as a non-root user (adjust as needed)
       containers:
       - name: aria
         image: ghcr.io/molnia1311/aria:1.36.0
