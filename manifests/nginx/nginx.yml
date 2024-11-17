@@ -16,6 +16,8 @@ spec:
           kind: DaemonSet
           hostNetwork: true
           dnsPolicy: ClusterFirstWithHostNet
+          admissionWebhooks:
+            enabled: false
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: ingress-nginx
