@@ -11,7 +11,7 @@ spec:
   source:
     path: manifests
     repoURL: https://github.com/molnia1311/dollop.git
-    targetRevision: nuts
+    targetRevision: prod
     directory:
       recurse: true
   syncPolicy:

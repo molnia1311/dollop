@@ -12,11 +12,11 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - longhorn.vanad.is
-    secretName: longhorn-vanad-is-tls
+    - longhorn.prod.vanad.is
+    secretName: longhorn-tls
 
   rules:
-  - host: longhorn.vanad.is
+  - host: longhorn.prod.vanad.is
     http:
       paths:
       - pathType: Prefix
