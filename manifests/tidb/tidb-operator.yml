@@ -16,3 +16,4 @@ spec:
       selfHeal: true
     syncOptions:
       - Validate=false
+      - ServerSideApply=true
