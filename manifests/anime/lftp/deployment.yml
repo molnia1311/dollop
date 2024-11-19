@@ -12,6 +12,17 @@ spec:
       labels:
         app: lftp
     spec:
+      initContainers:
+        - name: bootstrap
+          image: busybox
+          command:
+            - ln
+            - -sf
+            - /proc/self/fd/1
+            - /root/.local/share/lftp/transfer_log
+          volumeMounts:
+            - name: lftp-data
+              mountPath: /root/.local/share/lftp
       containers:
         - name: lftp
           image: minidocks/lftp # Docker image with lftp installed
@@ -25,6 +36,7 @@ spec:
               mountPath: /anime
             - name: lftprc
               mountPath: /root/.lftprc
+              subPath: .lftprc
             - name: lftp-data
               mountPath: /root/.local/share/lftp
       volumes:
