@@ -11,6 +11,8 @@ spec:
     metadata:
       labels:
         app: lftp
+      annotations:
+        kubectl.kubernetes.io/default-container: lftp
     spec:
       initContainers:
         - name: bootstrap
