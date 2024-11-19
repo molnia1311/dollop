@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lftp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lftp
+  template:
+    metadata:
+      labels:
+        app: lftp
+    spec:
+      containers:
+        - name: lftp
+          image: minidocks/lftp # Docker image with lftp installed
+          command:
+            - lftp
+          stdin: true
+          tty: true
+          workingDir: /anime
+          volumeMounts:
+            - name: anime
+              mountPath: /anime
+            - name: lftprc
+              mountPath: /root/.lftprc
+            - name: lftp-data
+              mountPath: /root/.local/share/lftp
+      volumes:
+        - name: anime
+          persistentVolumeClaim:
+            claimName: anime
+        - name: lftprc
+          configMap:
+            name: lftprc
+        - name: lftp-data
+          persistentVolumeClaim:
+            claimName: lftp-data
