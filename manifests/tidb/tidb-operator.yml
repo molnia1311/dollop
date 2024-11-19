@@ -17,4 +17,3 @@ spec:
     syncOptions:
       - Validate=false
       - ServerSideApply=true
-      - Replace=true
