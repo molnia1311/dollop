@@ -6,7 +6,6 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.6.2
     argocd.argoproj.io/sync-options: Replace=true,ServerSideApply=true
-  creationTimestamp: null
   name: backups.pingcap.com
 spec:
   group: pingcap.com
