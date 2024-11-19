@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lftprc
+data:
+  .lftprc: |
+    set ssl:verify-certificate false
+    set mirror:parallel-transfer-count 4
+    set net:connection-limit 0
