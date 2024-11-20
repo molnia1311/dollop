@@ -6,21 +6,25 @@ spec:
   hosts:
     - role: controller+worker
       noTaints: true
-      ssh:
+      privateInterface: eno3
+      openSSH:
         address: ns3066513.ip-79-137-70.eu
         user: debian
     - role: controller+worker
       noTaints: true
-      ssh:
+      privateInterface: eno3
+      openSSH:
         address: ns3066688.ip-79-137-70.eu
         user: debian
     - role: controller+worker
       noTaints: true
-      ssh:
+      privateInterface: eno1
+      openSSH:
         address: ns3138770.ip-94-23-11.eu
         user: debian
     - role: worker
-      ssh:
+      privateInterface: eth0
+      openSSH:
         address: 95-111-216-67.au-syd1.upcloud.host
         user: root
   k0s:
