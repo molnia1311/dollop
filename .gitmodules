@@ -1,3 +1,6 @@
 [submodule "containers/calendarbot"]
 	path = containers/calendarbot
 	url = https://codeberg.org/VicPetrov/CalendarBot
+[submodule "containers/longhorn-volume-manager"]
+	path = containers/longhorn-volume-manager
+	url = git@github.com:molnia1311/longhorn-volume-manager.git

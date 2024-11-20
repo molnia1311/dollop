@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - blend
+      - prod
     paths:
       - 'containers/**'
 
@@ -12,11 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        container-dir: ['aria', 'ariang']
+        container-dir: ['aria', 'ariang', 'longhorn-volume-manager']
 
     steps:
     - name: checkout the repo
       uses: actions/checkout@v4
+      with:
+        submodules: true
 
     # load environment variables from the corresponding .env file dynamically
     - name: load environment variables from .env
