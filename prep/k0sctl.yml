@@ -19,6 +19,10 @@ spec:
       ssh:
         address: ns3138770.ip-94-23-11.eu
         user: debian
+    - role: worker
+      ssh:
+        address: 95-111-216-67.au-syd1.upcloud.host
+        user: root
   k0s:
     version: v1.30.4+k0s.0
     config:

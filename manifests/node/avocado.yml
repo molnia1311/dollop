@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Node
+metadata:
+  name: avocado
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+  labels:
+    topology.kubernetes.io/region: au-syd1
+    topology.kubernetes.io/zone: au-syd1
+  annotations:
+    node.longhorn.io/default-node-tags: '["avocado"]'
