@@ -6,7 +6,7 @@ install kubectl and friends to `/usr/local/bin` on all `hosts`:
     ansible-playbook -i hosts tools.yml --ask-become-pass
     unset ANSIBLE_HOST_KEY_CHECKING # unset if you set it
 
-install deps for longhorn storage on `[servers]` only:
+install deps for calico and longhorn on `[servers]` only:
 
     ansible-playbook -i hosts deps.yml
 

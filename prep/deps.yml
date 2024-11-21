@@ -8,5 +8,16 @@
           - open-iscsi
           - nfs-common
           - cryptsetup
+          - wireguard-tools
         state: present
 
+    - name: load module dm_crypt on boot
+      copy:
+        dest: /etc/modules-load.d/dm_crypt.conf
+        content: "dm_crypt"
+        mode: "0644"
+
+    - name: load dm_crypt module now
+      modprobe:
+        name: dm_crypt
+        state: present
