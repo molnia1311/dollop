@@ -12,7 +12,7 @@ spec:
       values: |
         global:
           nodeSelector:
-            storage: true
+            storage: "true"
         preUpgradeChecker:
           jobEnabled: false
         persistence:
