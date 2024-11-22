@@ -5,6 +5,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
   labels:
+    storage: "true"
     topology.kubernetes.io/region: eu-west-rbx
     topology.kubernetes.io/zone: eu-west-rbx-a
   annotations:
