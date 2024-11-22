@@ -4,6 +4,8 @@ metadata:
   name: sonarr
   labels:
     app: sonarr
+  annotations:
+    argocd.argoproj.io/hook: Skip
 spec:
   replicas: 1
   selector:

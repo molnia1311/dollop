@@ -3,8 +3,7 @@ kind: Application
 metadata:
   name: valheim
   annotations:
-    argocd.argoproj.io/ignore-resources: |
-      PersistentVolumeClaim
+    argocd.argoproj.io/hook: Skip
 spec:
   project: default
   sources:

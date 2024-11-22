@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: minecraft
+  annotations:
+    argocd.argoproj.io/hook: Skip
 spec:
   accessModes:
     - ReadWriteOnce
@@ -9,4 +11,4 @@ spec:
     requests:
       storage: 15Gi
   storageClassName: local-storage
-  volumeName: minecraft
+  volumeName: pvc-default-minecraft-world

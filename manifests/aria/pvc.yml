@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: aria-session
+  annotations:
+    argocd.argoproj.io/hook: Skip
 spec:
   accessModes:
     - ReadWriteOnce

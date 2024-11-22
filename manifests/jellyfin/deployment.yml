@@ -4,6 +4,8 @@ metadata:
   name: jellyfin
   labels:
     app: jellyfin
+  annotations:
+    argocd.argoproj.io/hook: Skip
 spec:
   replicas: 1
   selector:
