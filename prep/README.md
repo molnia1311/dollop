@@ -32,6 +32,10 @@ install argocd and patch it:
     kubectl apply -f https://raw.githubusercontent.com/argoproj/argo-cd/$argocd_version/manifests/install.yaml
     kubectl patch clusterrolebinding argocd-application-controller --type='merge' -p "$(cat argocd.patch.yml)"
 
+patch calico for wireguard support:
+
+    kubectl patch felixconfiguration default --type='merge' -p "$(cat calico.patch.yml)"
+
 add this repo's `/manifests/` folder as a argocd app, recursively applying everything in it as a argocd app too:
 
     kubectl apply -f manifests.yml

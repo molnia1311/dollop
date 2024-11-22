@@ -41,5 +41,4 @@ spec:
         network:
           provider: calico
           calico:
-            wireguardEnabled: true
             mtu: 0
