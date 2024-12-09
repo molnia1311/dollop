@@ -6,11 +6,11 @@ spec:
   hosts:
     - role: controller+worker
       noTaints: true
-      ssh:
+      openSSH:
         address: ns3128072.ip-54-38-195.eu
         user: debian
   k0s:
-    version: v1.30.4+k0s.0
+    version: v1.30.6+k0s.0
     config:
       apiVersion: k0s.k0sproject.io/v1beta1
       kind: ClusterConfig
