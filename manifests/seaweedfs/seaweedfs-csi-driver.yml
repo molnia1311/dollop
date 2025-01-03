@@ -1,0 +1,130 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs-csi-driver
+  namespace: default
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/seaweedfs/seaweedfs-csi-driver.git"
+    targetRevision: "v1.2.7"
+    path: "deploy/helm/seaweedfs-csi-driver"
+    helm:
+      releaseName: "seaweedfs-csi-driver"
+      values: |-
+        # ------------------------------------
+        # Provide the address to your Filer below:
+        # e.g., "seaweedfs-filer-client.seaweedfs.svc.cluster.local:8888"
+        seaweedfsFiler: "seaweedfs-filer-client.seaweedfs.svc.cluster.local:8888"
+        
+        storageClassName: seaweedfs-storage
+        isDefaultStorageClass: false
+        tlsSecret: ""
+        #logVerbosity: 4
+        #cacheCapacityMB: 0
+        #concurrentWriters: 32
+        imagePullPolicy: "IfNotPresent"
+        #imagePullSecrets:
+        #- name: mycredentials
+
+        csiProvisioner:
+          image: registry.k8s.io/sig-storage/csi-provisioner:v3.5.0
+          resources: {}
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+        csiResizer:
+          image: registry.k8s.io/sig-storage/csi-resizer:v1.8.0
+          resources: {}
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+        csiAttacher:
+          enabled: true
+          image: registry.k8s.io/sig-storage/csi-attacher:v4.3.0
+          resources: {}
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+        csiSnapshotter:
+          enabled: false
+
+        csiNodeDriverRegistrar:
+          image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.8.0
+          resources: {}
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+        csiLivenessProbe:
+          image: registry.k8s.io/sig-storage/livenessprobe:v2.10.0
+          resources: {}
+
+        seaweedfsCsiPlugin:
+          image: chrislusf/seaweedfs-csi-driver:latest
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            allowPrivilegeEscalation: true
+
+        driverName: seaweedfs-csi-driver
+
+        controller:
+          replicas: 1
+          affinity: {}
+          tolerations:
+          resources: {}
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+        # For advanced data locality (like "write_preferlocaldc"), set something else:
+        dataLocality: "none"
+
+        node:
+          enabled: true
+          updateStrategy:
+            type: RollingUpdate
+            rollingUpdate:
+              maxUnavailable: 25%
+          affinity: {}
+          tolerations:
+          livenessProbe:
+            failureThreshold:
+            initialDelaySeconds: 10
+            timeoutSeconds: 3
+            periodSeconds: 60
+
+          injectTopologyInfoFromNodeLabel:
+            enabled: false
+            labels:
+              dataCenter: "topology.kubernetes.io/zone"
+
+          volumes:
+            registration_dir: /var/lib/k0s/kubelet/plugins_registry
+            plugins_dir: /var/lib/k0s/kubelet/plugins
+            pods_mount_dir: /var/lib/k0s/kubelet/pods
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: "seaweedfs-csi-driver"  # or wherever you want to install the CSI driver
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
