@@ -1,0 +1,110 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seaweedfs
+  namespace: default
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/seaweedfs/seaweedfs.git"
+    targetRevision: "3.80"
+    path: "k8s/charts/seaweedfs"
+    helm:
+      releaseName: "seaweedfs"
+      values: | 
+        ########################################################
+        # Global overrides
+        ########################################################
+        global:
+          # createClusterRole: true     # Usually leave as default "true"
+          # enableSecurity: false       # If you want JWT-based security, see official docs
+          # ...
+          enableReplication: true
+          replicationPlacment: "001"  # Example if you want each volume to have 2 copies
+
+        ########################################################
+        # Master (single replica as an example)
+        ########################################################
+        master:
+          enabled: true
+          replicas: 3
+          defaultReplication: "000"  # No extra copies by default (adjust if needed)
+          # Persistent storage for master’s meta info:
+          data:
+            type: "persistentVolumeClaim"
+            size: "10Gi"                 # Adjust to your liking
+            storageClass: "local-path"
+          logs:
+            type: "persistentVolumeClaim"
+            size: "1Gi"
+            storageClass: "local-path"
+          # Example: place Master on any node
+          nodeSelector: |
+            kubernetes.io/arch: amd64
+
+        ########################################################
+        # Volume Servers (3 replicas, one per node)
+        ########################################################
+        volume:
+          enabled: true
+          replicas: 3
+          # If you want minimal replication, keep default "readMode: proxy" and "defaultReplication=000"
+          dataDirs:
+          - name: data1
+            type: "persistentVolumeClaim"
+            size: "20Gi"
+            storageClass: "local-path"
+            maxVolumes: 0  # auto-limit (0 means auto, 7 is default)
+          # Additional dataDirs if you want more volumes or more disks per node
+          # ...
+          # e.g.:
+          # - name: data2
+          #   type: "persistentVolumeClaim"
+          #   size: "20Gi"
+          #   storageClass: "local-path"
+          #   maxVolumes: 0
+          nodeSelector: |
+            kubernetes.io/arch: amd64
+
+        ########################################################
+        # Filer (1 replica)
+        ########################################################
+        filer:
+          enabled: true
+          replicas: 1
+          # Each Filer replica needs persistent storage for metadata
+          data:
+            type: "persistentVolumeClaim"
+            size: "10Gi"
+            storageClass: "local-path"
+          logs:
+            type: "persistentVolumeClaim"
+            size: "2Gi"
+            storageClass: "local-path"
+          nodeSelector: |
+            kubernetes.io/arch: amd64
+
+        ########################################################
+        # S3 Gateway (optional)
+        ########################################################
+        s3:
+          enabled: false
+
+        # If you want S3 enabled:
+        # s3:
+        #   enabled: true
+        #   replicas: 1
+        #   nodeSelector: |
+        #     kubernetes.io/arch: amd64
+        #   ... etc.
+
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: "seaweedfs"   # The namespace to install the chart
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
