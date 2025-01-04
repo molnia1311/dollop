@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8up-crds
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/k8up-io/k8up.git"
+    targetRevision: "k8up-4.8.3"  # Use the specific version you need
+    path: "config/crd/apiextensions.k8s.io/v1"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: "k8up"  # Namespace is irrelevant for CRDs; they are cluster-wide
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Replace=true  # Ensures existing resources are replaced if necessary
