@@ -8,5 +8,5 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  storageClassName: local-storage
+  storageClassName: longhorn-static
   volumeName: pvc-default-jellyfin-config
