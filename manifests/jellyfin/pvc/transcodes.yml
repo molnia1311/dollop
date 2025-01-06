@@ -4,6 +4,7 @@ metadata:
   name: transcodes
   annotations:
     argocd.argoproj.io/hook: Skip
+    k8up.io/backup: false
 spec:
   accessModes:
     - ReadWriteOnce
