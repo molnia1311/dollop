@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: anime
   annotations:
-    k8up.io/backup: false
+    k8up.io/backup: "false"
 spec:
   accessModes:
     - ReadWriteOnce
