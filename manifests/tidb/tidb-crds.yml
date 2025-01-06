@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tidb-crds
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/pingcap/tidb-operator.git"
+    targetRevision: "v1.6.1"  # Specific version of the repository
+    path: "manifests"  # Base path for the manifests
+    directory:
+      include: "crd.yaml"
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: ""  # Namespace is irrelevant for CRDs; they are cluster-wide
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - Replace=true  # Ensures existing resources are replaced if necessary
