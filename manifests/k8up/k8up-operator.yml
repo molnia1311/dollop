@@ -1,0 +1,94 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8up-operator
+  namespace: default
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/k8up-io/k8up.git"
+    targetRevision: "k8up-4.8.3"
+    path: "charts/k8up"
+    helm:
+      releaseName: "k8up"
+      values: |-
+        replicaCount: 1
+        image:
+          pullPolicy: IfNotPresent
+          registry: ghcr.io
+          repository: k8up-io/k8up
+          tag: v2.11.3
+        imagePullSecrets: []
+        serviceAccount:
+          create: true
+          name: ""
+          annotations: {}
+        k8up:
+          envVars: []
+          backupImage:
+            repository: ""
+            tag: ""
+          timezone: ""
+          enableLeaderElection: true
+          skipWithoutAnnotation: false
+          operatorNamespace: ""
+          globalResources:
+            requests:
+              cpu: ""
+              memory: ""
+            limits:
+              cpu: ""
+              memory: ""
+        podAnnotations: {}
+        podSecurityContext: {}
+        securityContext: {}
+        priorityClassName: ""
+        nodeSelector: {}
+        tolerations: []
+        affinity: {}
+        metrics:
+          service:
+            port: 8080
+            type: ClusterIP
+            ipFamilyPolicy: ""
+            ipFamilies: []
+            nodePort: 0
+            annotations: {}
+          serviceMonitor:
+            enabled: false
+            scrapeInterval: 60s
+            namespace: ""
+            additionalLabels: {}
+          prometheusRule:
+            enabled: false
+            namespace: ""
+            additionalLabels: {}
+            createDefaultRules: true
+            jobFailedRulesFor: ["archive","backup","check","prune","restore"]
+            additionalRules: []
+          grafanaDashboard:
+            enabled: false
+            namespace: ""
+            additionalLabels: {}
+        rbac:
+          create: true
+        resources:
+          limits:
+            memory: 256Mi
+          requests:
+            cpu: 20m
+            memory: 128Mi
+        cleanup:
+          pullPolicy: IfNotPresent
+          registry: docker.io
+          repository: bitnami/kubectl
+          tag: latest
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: "k8up"   # Where you want the operator to run
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
